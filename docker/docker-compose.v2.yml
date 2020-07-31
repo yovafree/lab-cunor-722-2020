@@ -1,0 +1,35 @@
+version: '3.3'
+
+services:
+  pg10_cunor:
+    image: postgres:10-alpine
+    restart: always
+    container_name: pg10_cunor
+    hostname: pg10_cunor
+    environment:
+      POSTGRES_PASSWORD: 12345678
+      TZ: 'America/Guatemala'
+      PGTZ: 'America/Guatemala'
+    networks:
+      - testing_net_cunor
+      
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: pgadmin4_devel
+    hostname: pgadmin4_devel
+    environment: 
+      PGADMIN_DEFAULT_EMAIL: test@test.com
+      PGADMIN_DEFAULT_PASSWORD: 12345678
+    ports:
+      - 8082:80
+    networks:
+      - testing_net_cunor
+
+networks:
+    testing_net_cunor:
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.28.3.0/16
+    
